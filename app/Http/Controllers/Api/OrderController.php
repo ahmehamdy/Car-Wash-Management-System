@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Requests\UpdateStatusRequest;
 use App\Models\CarWash;
 use App\Models\Order;
 use App\Services\OrderService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\NewOrderForCarWash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class OrderController extends Controller
 {
-    public function store(Request $request, OrderService $orderService, CarWash $carWash)
+    use AuthorizesRequests;
+
+    public function store(StoreOrderRequest $request, OrderService $orderService, CarWash $carWash)
     {
-        $valideted = $request->validate([
-            'services' => 'required|array|min:1',
-            'services.*.id' => 'required|exists:services,id',
-            'services.*.qty' => 'sometimes|integer|min:1',
-            'pickup_time' => 'required|date_format:Y-m-d H:i'
-        ]);
+        $this->authorize('create');
+        $valideted = $request->validated();
 
         $order = $orderService->createOrder(auth()->user(), $valideted['pickup_time'], $carWash, $valideted['services']);
 
@@ -31,27 +31,16 @@ class OrderController extends Controller
 
     public function showMyOrder(Order $order)
     {
+        $this->authorize('viewMyOrder', $order);
         return response()->json([
             'message' => 'your order',
             'order' => $order
         ], 200);
     }
 
-    public function updateMyOrder(Request $request, Order $order, OrderService $orderService)
+    public function updateMyOrder(UpdateOrderRequest $request, Order $order, OrderService $orderService)
     {
-
-        $valideted = $request->validate([
-            'pickup_time' => 'sometimes|date_format:Y-m-d H:i',
-            'services' => 'sometimes|array|min:1',
-            'services.*.id' => 'sometimes|exists:services,id',
-            'services.*.qty' => 'sometimes|integer|min:1',
-        ]);
-
-        if ($order->status !== 'pending') {
-            return response()->json([
-                'message' => 'order cannot be updated'
-            ], 403);
-        }
+        $valideted = $request->validated();
 
         $order = $orderService->updateMyOrder($order, $valideted['services'] ?? [], $valideted['pickup_time'] ?? null);
 
@@ -63,7 +52,7 @@ class OrderController extends Controller
 
     public function showCarwashOrder(CarWash $carWash)
     {
-
+        $this->authorize('viewCarWashOrder',$carWash);
         $order = $carWash->orders()->latest()->get();
 
         return response()->json([
@@ -72,14 +61,9 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function updateStatus(Request $request, $orderId, OrderService $orderService)
+    public function updateStatus(UpdateStatusRequest $request, Order $order, OrderService $orderService)
     {
-        $validate = $request->validate([
-            'status' => 'required|in:confirmed,cancelled,completed'
-        ]);
-        $order = Order::wherekey($orderId)->wherehas('carWash', function ($q) {
-            $q->where('user_id', auth()->id());
-        })->firstOrFail();
+        $validate = $request->validated();
 
         $order = $orderService->updateStatus($order, $validate['status']);
 
@@ -91,6 +75,7 @@ class OrderController extends Controller
 
     public function deleteMyOrder(Order $order)
     {
+        $this->authorize('delete',$order);
         $order->delete();
         return response()->json([
             'message' => 'order deleted'

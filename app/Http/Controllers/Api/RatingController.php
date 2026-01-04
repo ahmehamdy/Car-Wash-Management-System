@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreRatingRequest;
+use App\Models\Order;
 
 class RatingController extends Controller
 {
-    public function addRating(Request $request,$orderId){
+    public function addRating(StoreRatingRequest $request, Order $order){
 
-        $validated = $request->validate([
-            'stars'=>'required|integer|min:1|max:5',
-            'comment'=>'nullable|string|max:500'
-        ]);
-        $order = auth()->user()->orders()->wherekey($orderId)->firstOrFail();
+        $validated = $request->validated();
         if($order->rating){
             return response()->json([
                 'message'=>'you already rated this order'

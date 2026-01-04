@@ -13,7 +13,7 @@ use App\Mail\NewOrderForCarWash;
 use App\Models\Order;
 
 Route::get('/test-mail', function () {
-    $order = Order::first(); // خد أول order موجود عندك في DB
+    $order = Order::first(); 
     if (!$order) {
         return 'No orders found';
     }
@@ -36,9 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::prefix('carwash')->group(function () {
             Route::post('/', [CarWashController::class, 'store'])->name('carwash.strore');
-            Route::get('/{id}', [CarWashController::class, 'show'])->name('carwash.show');
-            Route::put('/{id}', [CarWashController::class, 'update'])->name('carwash.update');
-            Route::delete('/{id}', [CarWashController::class, 'destroy'])->name('carwash.destroy');
+            Route::get('/{carWash}', [CarWashController::class, 'show'])->name('carwash.show');
+            Route::put('/{carWash}', [CarWashController::class, 'update'])->name('carwash.update');
+            Route::delete('/{carWash}', [CarWashController::class, 'destroy'])->name('carwash.destroy');
         });
         Route::prefix('service')->group(function () {
             Route::post('/carwash/{carwash}', [ServiceController::class, 'store'])->name('service.strore');
@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::prefix('carwashOrder')->group(function () {
             Route::get('/{carWash}', [OrderController::class, 'showCarwashOrder'])->name('order.showCarwashOrder');
-            Route::patch('/{orderId}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+            Route::patch('/{order}', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
         });
         Route::post('/workHours/{carWash}', [CarWashWorkingHourController::class, 'store'])->name('WorkHour.store');
     });
@@ -59,6 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/{order}', [OrderController::class, 'updateMyOrder'])->name('order.updateMyOrder');
             Route::delete('/{order}', [OrderController::class, 'deleteMyOrder'])->name('order.deleteMyOrder');
         });
-        Route::post('/rating/{orderId}', [RatingController::class, 'addRating'])->name('rating.addRating');
+        Route::post('/rating/{order}', [RatingController::class, 'addRating'])->name('rating.addRating');
     });
 });

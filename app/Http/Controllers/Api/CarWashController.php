@@ -3,62 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCarWashRequest;
+use App\Http\Requests\UpdateCarWashRequest;
 use Illuminate\Http\Request;
 use App\Models\CarWash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CarWashController extends Controller
 {
-    public function store(Request $request)
+    use AuthorizesRequests;
+    public function store(StoreCarWashRequest $request)
     {
+        $validated = $request->validated();
 
-        $validate = $request->validate([
-            'name' => 'required|string|max:255',
-            'address' => 'required|string',
-            'lat' => 'required|numeric|between:-90,90',
-            'lng' => 'required|numeric|between:-180,180',
-
-        ]);
-
-        $carWash = auth()->user()->carWashes()->create($validate);
+        $carWash = auth()->user()->carWashes()->create($validated);
         return response()->json([
             'message' => 'Car Wash Created',
             'car_wash' => $carWash,
         ], 201);
     }
 
-    public function show($id)
+    public function show(CarWash $carWash)
     {
-
-        $carWash = auth()->user()->carWashes()->findOrFail($id);
-
+        $this->authorize('view', $carWash);
         return response()->json([
             'car_wash' => $carWash->load('workingHours')
         ], 200);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateCarWashRequest $request, CarWash $carWash)
     {
-
-        $validate = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'address' => 'sometimes|string',
-            'lat' => 'sometimes|numeric|between:-90,90',
-            'lng' => 'sometimes|numeric|between:-180,180',
-
-        ]);
-
-        $carWash = auth()->user()->carWashes()->findOrFail($id);
-
-        $carWash->update($validate);
+        $validated = $request->validated();
+        $carWash->update($validated);
 
         return response()->json([
             'car_wash' => $carWash
         ], 200);
     }
 
-    public function destroy($id)
+    public function destroy(CarWash $carWash)
     {
-        $carWash = auth()->user()->carWashes()->findOrFail($id);
+        $this->authorize('delete', $carWash);
         $carWash->delete();
         return response()->json([
             'message' => 'Car Wash deleted successfully'

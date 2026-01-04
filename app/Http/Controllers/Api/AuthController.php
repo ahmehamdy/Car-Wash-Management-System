@@ -3,27 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(StoreUserRequest $request)
     {
 
-        $validate = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
-            'role' => 'required|string|in:client,owner',
-        ]);
+        $validated = $request->validate();
 
         $user = User::create([
-            'name' => $validate['name'],
-            'email' => $validate['email'],
-            'password' => Hash::make($validate['password']),
-            'role' => $validate['role'],
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -40,16 +37,12 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
+        $validated = $request->validated();
+        $user = User::where('email', $validated['email'])->first();
 
-        $validate = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
-        $user = User::where('email', $validate['email'])->first();
-
-        if (!$user || !Hash::check($validate['password'], $user->password)) {
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'message' => 'email or password wrong'
             ], 401);
