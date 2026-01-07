@@ -13,7 +13,7 @@ use App\Mail\NewOrderForCarWash;
 use App\Models\Order;
 
 Route::get('/test-mail', function () {
-    $order = Order::first(); 
+    $order = Order::first();
     if (!$order) {
         return 'No orders found';
     }
@@ -55,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::prefix('clientOrder')->group(function () {
             Route::post('/{carWash}', [OrderController::class, 'store'])->name('order.store');
+            Route::get('/', [OrderController::class, 'listMyOrders'])->name('order.listMyOrders');
             Route::get('/{order}', [OrderController::class, 'showMyOrder'])->name('order.showMyOrder');
             Route::put('/{order}', [OrderController::class, 'updateMyOrder'])->name('order.updateMyOrder');
             Route::delete('/{order}', [OrderController::class, 'deleteMyOrder'])->name('order.deleteMyOrder');

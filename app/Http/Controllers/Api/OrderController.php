@@ -8,20 +8,27 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Requests\UpdateStatusRequest;
 use App\Models\CarWash;
 use App\Models\Order;
-use App\Services\OrderService;
+use App\Actions\Order\CreateOrderAction;
+use App\Actions\Order\UpdateOrderAction;
+use App\Actions\Order\UpdateStatusAction;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 class OrderController extends Controller
 {
+    public function __construct(
+        private CreateOrderAction $createAction,
+        private UpdateOrderAction $updateAction,
+        private UpdateStatusAction $updateStatus
+    ) {}
     use AuthorizesRequests;
 
-    public function store(StoreOrderRequest $request, OrderService $orderService, CarWash $carWash)
+    public function store(StoreOrderRequest $request, CarWash $carWash)
     {
-        $this->authorize('create');
-        $valideted = $request->validated();
+        // $this->authorize('create');
+        $data = $request->validated();
 
-        $order = $orderService->createOrder(auth()->user(), $valideted['pickup_time'], $carWash, $valideted['services']);
+        $order = $this->createAction->execute(auth()->user(), $carWash, $data);
 
         return response()->json([
             'message' => 'order added',
@@ -38,11 +45,20 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function updateMyOrder(UpdateOrderRequest $request, Order $order, OrderService $orderService)
+    public function listMyOrders()
     {
-        $valideted = $request->validated();
+        $orders = auth()->user()->orders()->get();
+        return response()->json([
+            'message' => 'your orders',
+            'orders' => $orders
+        ], 200);
+    }
 
-        $order = $orderService->updateMyOrder($order, $valideted['services'] ?? [], $valideted['pickup_time'] ?? null);
+    public function updateMyOrder(UpdateOrderRequest $request, Order $order)
+    {
+        $data = $request->validated();
+
+        $order = $this->updateAction->execute($order, $data, auth()->user());
 
         return response()->json([
             'message' => 'order updated',
@@ -52,7 +68,7 @@ class OrderController extends Controller
 
     public function showCarwashOrder(CarWash $carWash)
     {
-        $this->authorize('viewCarWashOrder',$carWash);
+        // $this->authorize('viewCarWashOrder', $carWash);
         $order = $carWash->orders()->latest()->get();
 
         return response()->json([
@@ -61,12 +77,10 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function updateStatus(UpdateStatusRequest $request, Order $order, OrderService $orderService)
+    public function updateStatus(UpdateStatusRequest $request, Order $order)
     {
-        $validate = $request->validated();
-
-        $order = $orderService->updateStatus($order, $validate['status']);
-
+        $data = $request->validated();
+        $order = $this->updateStatus->execute($order, $data['status']);
         return response()->json([
             'message' => 'order status updated ',
             'order' => $order
@@ -75,7 +89,7 @@ class OrderController extends Controller
 
     public function deleteMyOrder(Order $order)
     {
-        $this->authorize('delete',$order);
+        $this->authorize('delete', $order);
         $order->delete();
         return response()->json([
             'message' => 'order deleted'

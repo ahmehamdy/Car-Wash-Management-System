@@ -35,7 +35,7 @@ class OrderPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role == 'client';
+        return $user->role === 'client';
     }
 
     /**

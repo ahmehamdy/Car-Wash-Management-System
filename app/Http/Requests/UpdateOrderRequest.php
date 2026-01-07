@@ -12,7 +12,7 @@ class UpdateOrderRequest extends FormRequest
     public function authorize(): bool
     {
         $order = $this->route('order');
-        return $order && $order->user_id === auth()->user()->id() && $order->starus === 'pending' ;
+        return $order && $order->user_id === auth()->user()->id && $order->status !== 'pending';
     }
 
     /**
