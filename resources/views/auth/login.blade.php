@@ -1,47 +1,185 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.auth')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title', 'تسجيل الدخول')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="auth-card">
+                <div class="row g-0">
+                    <!-- Left Side - Form -->
+                    <div class="col-lg-7">
+                        <div class="p-4 p-md-5">
+                            <div class="text-center mb-5">
+                                <h2 class="fw-bold text-primary">مرحباً بعودتك!</h2>
+                                <p class="text-muted">سجل الدخول لحسابك للمتابعة</p>
+                            </div>
+
+                            @if(session('status'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('status') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            @endif
+
+                            @if($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    @foreach($errors->all() as $error)
+                                        <p class="mb-0">{{ $error }}</p>
+                                    @endforeach
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            @endif
+
+                            <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
+                                @csrf
+
+                                <div class="mb-4">
+                                    <label for="email" class="form-label fw-semibold">البريد الإلكتروني</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-envelope text-muted"></i>
+                                        </span>
+                                        <input type="email"
+                                               class="form-control border-start-0 @error('email') is-invalid @enderror"
+                                               id="email"
+                                               name="email"
+                                               value="{{ old('email') }}"
+                                               placeholder="ادخل بريدك الإلكتروني"
+                                               required>
+                                        @error('email')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-semibold">كلمة المرور</label>
+                                    <div class="position-relative">
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0">
+                                                <i class="bi bi-lock text-muted"></i>
+                                            </span>
+                                            <input type="password"
+                                                   class="form-control border-start-0 password-input @error('password') is-invalid @enderror"
+                                                   id="password"
+                                                   name="password"
+                                                   placeholder="ادخل كلمة المرور"
+                                                   required>
+                                        </div>
+                                        <span class="password-toggle">
+                                            <i class="bi bi-eye"></i>
+                                        </span>
+                                        @error('password')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="mb-4 d-flex justify-content-between align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                                        <label class="form-check-label text-muted" for="remember">
+                                            تذكرني
+                                        </label>
+                                    </div>
+                                    <a href="{{ route('password.request') }}" class="text-decoration-none text-primary">
+                                        نسيت كلمة المرور؟
+                                    </a>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 py-3 mb-4">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i> تسجيل الدخول
+                                </button>
+
+                                <div class="text-center mb-4">
+                                    <span class="text-muted">أو سجل الدخول باستخدام</span>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <button type="button" class="social-btn w-100">
+                                            <i class="bi bi-google text-danger"></i>
+                                            <span>جوجل</span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="social-btn w-100">
+                                            <i class="bi bi-facebook text-primary"></i>
+                                            <span>فيسبوك</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <p class="text-muted">
+                                        ليس لديك حساب؟
+                                        <a href="{{ route('register') }}" class="text-decoration-none fw-semibold text-primary">
+                                            سجل الآن
+                                        </a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Right Side - Info -->
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <div class="auth-sidebar">
+                            <h3>لماذا CarWash Pro؟</h3>
+                            <ul>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>إدارة سهلة لعمليات غسيل السيارات</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>حجز مواعيد أونلاين في أي وقت</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>تتبع حالة الخدمة في الوقت الحقيقي</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>تقارير وإحصائيات مفصلة</span>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>دعم فني على مدار الساعة</span>
+                                </li>
+                            </ul>
+
+                            <div class="mt-5 pt-5">
+                                <div class="testimonial bg-white bg-opacity-10 p-3 rounded">
+                                    <p class="fst-italic">
+                                        "CarWash Pro ساعدتني في تنظيم عملي وزادت من عدد عملائي بنسبة 40% خلال شهرين فقط!"
+                                    </p>
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <img src="https://ui-avatars.com/api/?name=محمد+علي&background=random"
+                                                 alt="صاحب مغسلة"
+                                                 class="rounded-circle"
+                                                 width="40"
+                                                 height="40">
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">محمد علي</h6>
+                                            <small class="text-light">صاحب مغسلة سيارات</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+@endsection

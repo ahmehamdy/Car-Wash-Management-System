@@ -10,9 +10,10 @@ class Service extends Model
         'car_wash_id',
         'name',
         'price',
+        'description',
+        'duration',
+        'status',
     ];
-
-
 
     public function carWash()
     {

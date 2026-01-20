@@ -12,7 +12,18 @@ class UpdateCarWashRequest extends FormRequest
     public function authorize(): bool
     {
         $carWash = $this->route('carWash');
-        return $carWash && $carWash->user_id === auth()->user()->id;
+        if (!$carWash) {
+            return false;
+        }
+
+        return $carWash->user_id === auth()->id();
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'is_active' => $this->is_active === 'active' ? 1 : 0,
+        ]);
     }
 
     /**
@@ -23,10 +34,13 @@ class UpdateCarWashRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'address' => 'sometimes|string',
-            'lat' => 'sometimes|numeric|between:-90,90',
-            'lng' => 'sometimes|numeric|between:-180,180',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string',
+            'is_active' => 'required|boolean',
+            'new_images' => 'nullable|array|max:10',
+            'new_images.*' => 'image|max:2048',
         ];
     }
 }

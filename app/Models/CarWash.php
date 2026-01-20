@@ -9,10 +9,17 @@ class CarWash extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'description',
+        'phone',
         'address',
         'lat',
         'lng',
         'is_active',
+        'images',
+    ];
+
+    protected $casts = [
+        'images'=>'array'
     ];
 
 

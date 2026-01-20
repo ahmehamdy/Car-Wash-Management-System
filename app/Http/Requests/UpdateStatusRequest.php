@@ -12,7 +12,7 @@ class UpdateStatusRequest extends FormRequest
     public function authorize(): bool
     {
         $order = $this->route('order');
-        return $order && $order->carWash->user_id === auth()->user()->id;
+        return $order && $order->carWash->user_id === auth()->id();
     }
 
     /**
@@ -23,7 +23,7 @@ class UpdateStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|in:confirmed,cancelled,completed'
+            'status' => 'required|in:pending,confirmed,in-progress,completed,cancelled'
         ];
     }
 }

@@ -25,12 +25,8 @@ class CreateOrderAction
         $this->validation->validate($carWash, $user, $pickup);
 
         $order = $this->orderService->createOrder($user, $carWash, $pickup);
-        $order = $this->orderService->attachService($order,$data['services']);
+        $order = $this->orderService->attachService($order, $data['services']);
         $this->mailer->sendNewOrderMail($order);
         return $order->refresh();
-    }
-    public function updateStatus(Order $order, $newStatus)
-    {
-
     }
 }

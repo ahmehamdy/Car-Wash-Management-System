@@ -12,8 +12,20 @@ class StoreServiceRequest extends FormRequest
     public function authorize(): bool
     {
         $carWash = $this->route('carWash');
-        return $carWash && $carWash->user_id === auth()->user()->id ;
+        if (!$carWash) {
+            return false;
+        }
+        return $carWash->user_id === auth()->id();
+        // return true;
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'status' => $this->status === 'active' ? 1 : 0,
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +36,10 @@ class StoreServiceRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|max:100'
+            'price' => 'required|numeric|min:0|max:100',
+            'description' => 'nullable|string',
+            'duration' => 'nullable|integer|min:1',
+            'status' => 'required|boolean',
         ];
     }
 }

@@ -25,10 +25,6 @@ class OrderPolicy
         return $user->id === $order->user_id;
     }
 
-    public function viewCarWashOrder(User $user, CarWash $carWash): bool
-    {
-        return $user->id === $carWash->user_id;
-    }
 
     /**
      * Determine whether the user can create models.
@@ -43,7 +39,19 @@ class OrderPolicy
      */
     public function update(User $user, Order $order): bool
     {
-        return $order->starus === 'pending' && $order->user_id === $user->id;
+        return $order->status === 'pending'
+            && $order->user_id === $user->id;
+    }
+
+    /**
+     * Only car wash owner can update order status
+     */
+    public function updateStatus(User $user, Order $order): bool
+    {
+        return
+            $user->role === 'owner'
+            && $order->carWash
+            && $order->carWash->user_id === $user->id;
     }
 
     /**

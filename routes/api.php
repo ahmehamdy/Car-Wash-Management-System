@@ -35,7 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:owner')->group(function () {
 
         Route::prefix('carwash')->group(function () {
-            Route::post('/', [CarWashController::class, 'store'])->name('carwash.strore');
+            Route::get('/', [CarWashController::class, 'index'])->name('carwash.index');
+            Route::post('/', [CarWashController::class, 'store'])->name('carwash.store');
             Route::get('/{carWash}', [CarWashController::class, 'show'])->name('carwash.show');
             Route::put('/{carWash}', [CarWashController::class, 'update'])->name('carwash.update');
             Route::delete('/{carWash}', [CarWashController::class, 'destroy'])->name('carwash.destroy');

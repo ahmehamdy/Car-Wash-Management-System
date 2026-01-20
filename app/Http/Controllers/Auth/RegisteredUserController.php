@@ -33,7 +33,9 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:client,car_wash'],
+            'role' => ['required', 'in:client,owner'],
+            'phone' => 'nullable|string',
+            'city' => 'nullable|string',
         ]);
 
         $user = User::create([
@@ -41,18 +43,14 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'phone' => $request->phone,
+            'city' => $request->city,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        $role = auth()->user()->role;
-        if ($role == 'client') {
-
-            return redirect()->intended(route('client.home', absolute: false));
-        }
-
-        return redirect()->intended(route('owner.home', absolute: false));
+        return redirect()->route('dashboard');
     }
 }

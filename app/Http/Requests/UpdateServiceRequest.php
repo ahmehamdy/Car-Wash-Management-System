@@ -11,9 +11,16 @@ class UpdateServiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $carWash = $this->route('carWash');
-        return $carWash && $carWash->user_id === auth()->user()->id;
+        return true;
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'status' => $this->status === 'active' ? 1 : 0,
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,7 +31,10 @@ class UpdateServiceRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:255',
-            'price' => 'sometimes|numeric|min:0|max:100'
+            'price' => 'sometimes|numeric|min:0|max:100',
+            'description' => 'nullable|string',
+            'duration' => 'nullable|integer|min:1',
+            'status' => 'required|boolean',
         ];
     }
 }

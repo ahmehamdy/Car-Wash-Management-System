@@ -21,7 +21,12 @@ class CarWashPolicy
      */
     public function view(User $user, CarWash $carWash): bool
     {
-        return $carWash && $carWash->user_id === $user->id;
+        return $carWash->user_id === $user->id;
+    }
+
+    public function viewCarWashOrder(User $user, CarWash $carWash): bool
+    {
+        return $user->id === $carWash->user_id;
     }
 
     /**
@@ -37,7 +42,7 @@ class CarWashPolicy
      */
     public function update(User $user, CarWash $carWash): bool
     {
-        return false;
+        return $user->id === $carWash->user_id;
     }
 
     /**
@@ -45,7 +50,7 @@ class CarWashPolicy
      */
     public function delete(User $user, CarWash $carWash): bool
     {
-        return $carWash && $carWash->user_id === $user->id;
+        return $carWash->user_id === $user->id;
     }
 
     /**

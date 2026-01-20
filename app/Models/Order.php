@@ -13,6 +13,9 @@ class Order extends Model
         'status',
         'pickup_time',
     ];
+    protected $casts = [
+        'pickup_time' => 'datetime',
+    ];
 
 
     public function user()

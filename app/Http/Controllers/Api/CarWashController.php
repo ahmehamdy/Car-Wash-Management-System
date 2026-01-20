@@ -12,6 +12,16 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class CarWashController extends Controller
 {
     use AuthorizesRequests;
+
+    public function index()
+    {
+        $carWashes = CarWash::all();
+
+        return response()->json([
+            'message'=>'all Car Washes',
+            'carWashes'=>$carWashes
+        ]);
+    }
     public function store(StoreCarWashRequest $request)
     {
         $validated = $request->validated();
