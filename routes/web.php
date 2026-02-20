@@ -72,7 +72,7 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/clientOrder', [ClientHomeController::class, 'listMyOrders'])->name('client.listMyOrders');
 
     Route::prefix('clientOrder')->group(function () {
-        Route::get('/{status}', [OrderController::class, 'index'])->name('client.orders.index');
+        Route::get('/', [OrderController::class, 'index'])->name('client.orders.index');
         Route::get('/create/{carWash}', [OrderController::class, 'create'])->name('client.orders.create');
         Route::get('/edit/{order}', [OrderController::class, 'edit'])->name('client.order.edit');
         Route::post('/{carWash}', [OrderController::class, 'store'])->name('client.order.store');

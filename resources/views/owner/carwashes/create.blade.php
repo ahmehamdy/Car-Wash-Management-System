@@ -31,7 +31,6 @@
                 @csrf
 
                 <div class="row">
-                    <!-- المعلومات الأساسية -->
                     <div class="col-lg-8">
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -112,7 +111,6 @@
                             </div>
                         </div>
 
-                        <!-- رفع الصور -->
                         <div class="card mb-4">
                             <div class="card-header bg-light">
                                 <h6 class="mb-0">صور المغسلة</h6>
@@ -132,20 +130,17 @@
                                 </div>
 
                                 <div class="row" id="imagePreview">
-                                    <!-- معاينة الصور ستظهر هنا -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- معلومات إضافية -->
                     <div class="col-lg-4">
                         <div class="card mb-4">
                             <div class="card-header bg-light">
                                 <h6 class="mb-0">تفاصيل إضافية</h6>
                             </div>
                             <div class="card-body">
-                                <!-- ساعات العمل -->
                                 <div class="mb-4">
                                     <h6 class="mb-3">ساعات العمل</h6>
                                     <div class="alert alert-info">
@@ -154,7 +149,6 @@
                                     </div>
                                 </div>
 
-                                <!-- خدمات المغسلة -->
                                 <div class="mb-4">
                                     <h6 class="mb-3">الخدمات</h6>
                                     <div class="alert alert-info">
@@ -163,7 +157,6 @@
                                     </div>
                                 </div>
 
-                                <!-- الإعدادات -->
                                 <div class="mb-3">
                                     <h6 class="mb-3">إعدادات سريعة</h6>
                                     <div class="form-check form-switch mb-2">
@@ -185,7 +178,6 @@
                             </div>
                         </div>
 
-                        <!-- زر الحفظ -->
                         <div class="card">
                             <div class="card-body">
                                 <button type="submit" class="btn btn-primary w-100 py-3">
@@ -235,7 +227,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // إحداثيات افتراضية (مثلاً القاهرة)
             const defaultLat = 30.0444;
             const defaultLng = 31.2357;
 
@@ -249,18 +240,15 @@
                 draggable: true
             }).addTo(map);
 
-            // تعيين القيم الافتراضية
             document.getElementById('lat').value = defaultLat;
             document.getElementById('lng').value = defaultLng;
 
-            // عند سحب المؤشر
             marker.on('dragend', function(e) {
                 const position = marker.getLatLng();
                 document.getElementById('lat').value = position.lat;
                 document.getElementById('lng').value = position.lng;
             });
 
-            // عند الضغط على الخريطة
             map.on('click', function(e) {
                 marker.setLatLng(e.latlng);
                 document.getElementById('lat').value = e.latlng.lat;
@@ -270,7 +258,6 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // معاينة الصور قبل الرفع
             const imageUpload = document.getElementById('imageUpload');
             const imagePreview = document.getElementById('imagePreview');
 
@@ -296,14 +283,12 @@
                 }
             });
 
-            // إزالة الصورة من المعاينة
             imagePreview.addEventListener('click', function(e) {
                 if (e.target.closest('.remove-image')) {
                     const index = e.target.closest('.remove-image').getAttribute('data-index');
                     const dt = new DataTransfer();
                     const files = imageUpload.files;
 
-                    // إنشاء قائمة جديدة بدون الملف المزال
                     for (let i = 0; i < files.length; i++) {
                         if (i != index) {
                             dt.items.add(files[i]);
@@ -313,12 +298,10 @@
                     imageUpload.files = dt.files;
                     e.target.closest('.image-preview-item').remove();
 
-                    // تحديث event لإعادة عرض الصور
                     imageUpload.dispatchEvent(new Event('change'));
                 }
             });
 
-            // تحقق من صحة النموذج
             document.getElementById('carWashForm').addEventListener('submit', function(e) {
                 const phone = document.querySelector('input[name="phone"]').value;
                 const phoneRegex = /^01[0-2,5]\d{8}$/;

@@ -22,7 +22,6 @@
         </div>
 
         <div class="card-body">
-            <!-- رسائل النجاح -->
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle me-2"></i>
@@ -46,7 +45,6 @@
                         <div class="col-xl-4 col-lg-6">
                             <div class="card carwash-card shadow-sm" style="cursor: pointer;"
                                 onclick="window.location='{{ route('carWash.show', $carWash) }}'">
-                                <!-- صورة المغسلة -->
                                 <div class="carwash-image-container">
                                     @if (!empty($carWash->images))
                                         <img src="{{ Storage::url($carWash->images[0]) }}" class="card-img-top carwash-img"
@@ -61,7 +59,6 @@
                                         </div>
                                     @endif
 
-                                    <!-- حالة المغسلة -->
                                     <div class="carwash-status">
                                         <span class="badge bg-{{ $carWash->is_active ? 'success' : 'secondary' }}">
                                             {{ $carWash->is_active ? 'نشطة' : 'غير نشطة' }}
@@ -128,7 +125,6 @@
                                 </div>
                             </div>
 
-                            <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $carWash->id }}" tabindex="-1">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -159,7 +155,6 @@
                     @endforeach
                 </div>
 
-                <!-- Pagination -->
                 @if ($carWashes->hasPages())
                     <div class="d-flex justify-content-center mt-4">
                         {{ $carWashes->links('pagination::bootstrap-5') }}
@@ -235,7 +230,6 @@
     </style>
 
     <script>
-        // تأكيد الحذف
         document.querySelectorAll('[data-bs-target^="#deleteModal"]').forEach(button => {
             button.addEventListener('click', function() {
                 const modalId = this.getAttribute('data-bs-target');

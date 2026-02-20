@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        <!-- رأس الصفحة -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h1 class="h4 mb-2 text-gray-800">
@@ -19,7 +18,6 @@
             </div>
         </div>
 
-        <!-- رسائل النجاح -->
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-circle fa-fw"></i> {{ session('success') }}
@@ -37,7 +35,6 @@
             </div>
         @endif
 
-        <!-- جدول المواعيد -->
         <div class="card shadow">
             <div class="card-header bg-primary text-white py-3">
                 <h6 class="m-0 font-weight-bold">
@@ -62,7 +59,6 @@
                                     $openTime = $hour->open_time ? \Carbon\Carbon::parse($hour->open_time) : null;
                                     $closeTime = $hour->close_time ? \Carbon\Carbon::parse($hour->close_time) : null;
 
-                                    // تحديد إذا كان اليوم إجازة
                                     $isDayOff = !$openTime && !$closeTime;
 
                                     if (!$isDayOff && $openTime && $closeTime) {

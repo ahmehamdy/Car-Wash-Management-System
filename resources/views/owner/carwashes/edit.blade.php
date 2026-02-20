@@ -23,7 +23,6 @@
                 @method('PUT')
 
                 <div class="row">
-                    <!-- المعلومات الأساسية -->
                     <div class="col-lg-8">
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -113,7 +112,6 @@
                         @php
                             $currentImages = $carWash->images;
                         @endphp
-                        <!-- الصور الحالية -->
                         @php
                             $currentImages = $carWash->images ?? [];
                         @endphp
@@ -153,7 +151,6 @@
                             </div>
                         </div>
 
-                        <!-- إضافة صور جديدة -->
                         <div class="card mb-4">
                             <div class="card-header bg-light">
                                 <h6 class="mb-0">إضافة صور جديدة</h6>
@@ -176,13 +173,11 @@
                                 </div>
 
                                 <div class="row" id="imagePreview">
-                                    <!-- معاينة الصور الجديدة ستظهر هنا -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- معلومات إضافية -->
                     <div class="col-lg-4">
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -206,7 +201,6 @@
                             </div>
                         </div>
 
-                        <!-- زر الحفظ -->
                         <div class="card">
                             <div class="card-body">
                                 <button type="submit" class="btn btn-primary w-100 py-3">
@@ -240,14 +234,12 @@
                     draggable: true
                 }).addTo(map);
 
-                // عند سحب الماركر
                 marker.on('dragend', function(e) {
                     let position = marker.getLatLng();
                     document.getElementById('lat').value = position.lat;
                     document.getElementById('lng').value = position.lng;
                 });
 
-                // عند الضغط على الخريطة
                 map.on('click', function(e) {
                     marker.setLatLng(e.latlng);
                     document.getElementById('lat').value = e.latlng.lat;
@@ -256,22 +248,17 @@
 
             });
 
-            // مصفوفة لحفظ الصور المحذوفة
             let deletedImages = [];
 
-            // دالة حذف صورة
             function deleteImage(index) {
                 if (confirm('هل أنت متأكد من حذف هذه الصورة؟')) {
-                    // إخفاء الصورة
                     const imageContainer = document.querySelector(`input[name="current_images[]"][value="${index}"]`).closest(
                         '.col-md-3');
                     imageContainer.style.display = 'none';
 
-                    // إضافة الصورة المحذوفة إلى مصفوفة
                     const imagePath = document.querySelector(`input[name="current_images[]"][value="${index}"]`).value;
                     deletedImages.push(imagePath);
 
-                    // إنشاء حقل مخفي للصور المحذوفة
                     if (!document.querySelector('input[name="deleted_images"]')) {
                         const input = document.createElement('input');
                         input.type = 'hidden';
@@ -284,7 +271,6 @@
                 }
             }
 
-            // معاينة الصور الجديدة
             document.getElementById('imageUpload').addEventListener('change', function(e) {
                 const files = e.target.files;
                 const previewContainer = document.getElementById('imagePreview');
@@ -326,7 +312,6 @@
                 }
             });
 
-            // دالة حذف صورة جديدة من المعاينة
             function removeNewImage(index) {
                 const fileInput = document.getElementById('imageUpload');
                 const dt = new DataTransfer();
@@ -340,12 +325,10 @@
 
                 fileInput.files = dt.files;
 
-                // تحديث المعاينة
                 const event = new Event('change');
                 fileInput.dispatchEvent(event);
             }
 
-            // التحقق من النموذج
             document.getElementById('carWashForm').addEventListener('submit', function(e) {
                 const name = document.querySelector('input[name="name"]').value.trim();
                 const phone = document.querySelector('input[name="phone"]').value.trim();

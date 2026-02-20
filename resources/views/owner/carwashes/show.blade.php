@@ -5,7 +5,6 @@
 
 @section('content')
     <div class="row">
-        <!-- المعلومات الرئيسية -->
         <div class="col-lg-8">
             <div class="card mb-4">
                 <div class="card-body">
@@ -17,7 +16,6 @@
                         </div>
                     @endif
                     <div class="row">
-                        <!-- الصور -->
                         <div class="col-md-5">
                             <div id="carWashCarousel" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner rounded">
@@ -63,7 +61,6 @@
                         </div>
 
 
-                        <!-- المعلومات -->
                         <div class="col-md-7">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <div>
@@ -124,7 +121,6 @@
                 </div>
             </div>
 
-            <!-- الإحصائيات -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="card h-100">
@@ -175,7 +171,6 @@
                 </div>
             </div>
 
-            <!-- الخدمات -->
             <div class="card mb-4">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">الخدمات المتاحة</h6>
@@ -220,9 +215,7 @@
             </div>
         </div>
 
-        <!-- القائمة الجانبية -->
         <div class="col-lg-4">
-            <!-- إجراءات سريعة -->
             <div class="card mb-4">
                 <div class="card-header bg-light">
                     <h6 class="mb-0">إجراءات سريعة</h6>
@@ -245,7 +238,6 @@
                 </div>
             </div>
 
-            <!-- معلومات إضافية -->
             <div class="card mb-4">
                 <div class="card-header bg-light">
                     <h6 class="mb-0">معلومات إضافية</h6>
@@ -272,7 +264,6 @@
                 </div>
             </div>
 
-            <!-- آخر الطلبات -->
             <div class="card">
                 <div class="card-header bg-light">
                     <h6 class="mb-0">آخر الطلبات</h6>
@@ -345,7 +336,6 @@
     </style>
 
     <script>
-        // تفعيل carousel
         const carousel = new bootstrap.Carousel(document.getElementById('carWashCarousel'), {
             interval: 3000,
             wrap: true

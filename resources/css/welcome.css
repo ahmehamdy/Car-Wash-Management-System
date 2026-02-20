@@ -1,0 +1,115 @@
+ :root {
+     --primary-blue: #1a365d;
+     --secondary-blue: #2d3748;
+     --accent-yellow: #f6c90e;
+     --light-gray: #f7fafc;
+     --dark-gray: #4a5568;
+ }
+
+ body {
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ /* Hero Section */
+ .hero-section {
+     background: linear-gradient(rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.85)),
+         url('https://images.unsplash.com/photo-1565689221354-d87f85d4aee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+     background-size: cover;
+     background-position: center;
+     min-height: 100vh;
+     display: flex;
+     align-items: center;
+ }
+
+ /* Feature Cards */
+ .feature-card {
+     border: none;
+     border-radius: 15px;
+     transition: all 0.3s ease;
+     height: 100%;
+     border-top: 4px solid var(--accent-yellow);
+ }
+
+ .feature-card:hover {
+     transform: translateY(-10px);
+     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+ }
+
+ /* Icon Circles */
+ .icon-circle {
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin: 0 auto 20px;
+ }
+
+ .bg-accent {
+     background-color: rgba(246, 201, 14, 0.1);
+ }
+
+ /* Role Cards */
+ .role-card {
+     border-radius: 15px;
+     transition: transform 0.3s ease;
+     height: 100%;
+ }
+
+ .role-card:hover {
+     transform: scale(1.03);
+ }
+
+ /* Stats Counter */
+ .stat-counter {
+     font-size: 3rem;
+     font-weight: bold;
+     color: var(--primary-blue);
+ }
+
+ /* Custom Buttons */
+ .btn-warning {
+     background-color: var(--accent-yellow);
+     border-color: var(--accent-yellow);
+     color: var(--primary-blue);
+     font-weight: 600;
+ }
+
+ .btn-warning:hover {
+     background-color: #e4b80d;
+     border-color: #e4b80d;
+ }
+
+ .btn-outline-light:hover {
+     color: var(--primary-blue);
+ }
+
+ /* Responsive Adjustments */
+ @media (max-width: 768px) {
+     .hero-section {
+         min-height: 80vh;
+         text-align: center;
+     }
+
+     .stat-counter {
+         font-size: 2.5rem;
+     }
+ }
+
+ /* Animation */
+ @keyframes fadeInUp {
+     from {
+         opacity: 0;
+         transform: translateY(30px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .animate-fade-up {
+     animation: fadeInUp 0.8s ease-out;
+ }

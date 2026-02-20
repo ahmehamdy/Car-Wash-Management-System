@@ -29,7 +29,6 @@
         </div>
 
         <div class="card-body">
-            <!-- رسائل التحديث -->
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle me-2"></i>
@@ -46,7 +45,6 @@
                 </div>
             @endif
 
-            <!-- إحصائيات وشريط البحث -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
@@ -86,7 +84,6 @@
                 </div>
             </div>
 
-            <!-- جدول الطلبات -->
             @if ($orders->isEmpty())
                 <div class="text-center py-5">
                     <i class="bi bi-receipt display-1 text-muted"></i>
@@ -166,13 +163,11 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <!-- زر عرض التفاصيل -->
                                             <button type="button" class="btn btn-sm btn-outline-info"
                                                 data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
                                                 <i class="bi bi-eye"></i>
                                             </button>
 
-                                            <!-- زر تغيير الحالة إذا كان مسموحاً -->
                                             @if (!empty($allowedTransitions[$order->status]))
                                                 <div class="dropdown">
                                                     <button class="btn btn-sm btn-outline-primary dropdown-toggle"
@@ -206,7 +201,6 @@
                                             @endif
                                         </div>
 
-                                        <!-- Modal لعرض تفاصيل الطلب -->
                                         <div class="modal fade" id="orderModal{{ $order->id }}" tabindex="-1">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
@@ -308,7 +302,6 @@
                     </table>
                 </div>
 
-                <!-- Pagination -->
                 @if ($orders->hasPages())
                     <div class="d-flex justify-content-between align-items-center mt-4">
                         <div class="text-muted">
@@ -353,7 +346,6 @@
             return confirm(`هل أنت متأكد من تغيير حالة الطلب من "${currentStatus}" إلى "${newStatus}"؟`);
         }
 
-        // AJAX لتحديث الحالة بدون refresh (اختياري)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('form[action*="updateStatus"]').forEach(form => {
                 form.addEventListener('submit', function(e) {
@@ -377,7 +369,6 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // إعادة تحميل الصفحة بعد تحديث الحالة
                                 location.reload();
                             } else {
                                 alert(data.message || 'حدث خطأ أثناء تحديث الحالة');

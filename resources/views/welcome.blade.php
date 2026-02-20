@@ -1,130 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CarWash Pro | نظام إدارة مغاسل السيارات</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-blue: #1a365d;
-            --secondary-blue: #2d3748;
-            --accent-yellow: #f6c90e;
-            --light-gray: #f7fafc;
-            --dark-gray: #4a5568;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.85)),
-                        url('https://images.unsplash.com/photo-1565689221354-d87f85d4aee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Feature Cards */
-        .feature-card {
-            border: none;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            height: 100%;
-            border-top: 4px solid var(--accent-yellow);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        /* Icon Circles */
-        .icon-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        .bg-accent {
-            background-color: rgba(246, 201, 14, 0.1);
-        }
-
-        /* Role Cards */
-        .role-card {
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-            height: 100%;
-        }
-
-        .role-card:hover {
-            transform: scale(1.03);
-        }
-
-        /* Stats Counter */
-        .stat-counter {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary-blue);
-        }
-
-        /* Custom Buttons */
-        .btn-warning {
-            background-color: var(--accent-yellow);
-            border-color: var(--accent-yellow);
-            color: var(--primary-blue);
-            font-weight: 600;
-        }
-
-        .btn-warning:hover {
-            background-color: #e4b80d;
-            border-color: #e4b80d;
-        }
-
-        .btn-outline-light:hover {
-            color: var(--primary-blue);
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .hero-section {
-                min-height: 80vh;
-                text-align: center;
-            }
-
-            .stat-counter {
-                font-size: 2.5rem;
-            }
-        }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-up {
-            animation: fadeInUp 0.8s ease-out;
-        }
-    </style>
+    @vite('resources/css/welcome.css')
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -167,7 +52,8 @@
                         نظام إدارة مغاسل السيارات المتكامل
                     </h1>
                     <p class="lead mb-4">
-                        منصة متكاملة تربط بين أصحاب مغاسل السيارات والعملاء، حيث يمكنك حجز خدمات الغسيل والتلميع أونلاين وإدارة عملك بكفاءة عالية.
+                        منصة متكاملة تربط بين أصحاب مغاسل السيارات والعملاء، حيث يمكنك حجز خدمات الغسيل والتلميع أونلاين
+                        وإدارة عملك بكفاءة عالية.
                     </p>
                     <div class="d-flex flex-wrap gap-3">
                         <a href="{{ route('register') }}" class="btn btn-warning btn-lg px-4">
@@ -251,7 +137,6 @@
                 </div>
             </div>
             <div class="row g-4">
-                <!-- Feature 1 -->
                 <div class="col-md-4">
                     <div class="card feature-card shadow-sm">
                         <div class="card-body p-4 text-center">
@@ -265,7 +150,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Feature 2 -->
                 <div class="col-md-4">
                     <div class="card feature-card shadow-sm">
                         <div class="card-body p-4 text-center">
@@ -279,7 +163,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Feature 3 -->
                 <div class="col-md-4">
                     <div class="card feature-card shadow-sm">
                         <div class="card-body p-4 text-center">
@@ -293,7 +176,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Feature 4 -->
                 <div class="col-md-4">
                     <div class="card feature-card shadow-sm">
                         <div class="card-body p-4 text-center">
@@ -307,7 +189,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Feature 5 -->
                 <div class="col-md-4">
                     <div class="card feature-card shadow-sm">
                         <div class="card-body p-4 text-center">
@@ -321,7 +202,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Feature 6 -->
                 <div class="col-md-4">
                     <div class="card feature-card shadow-sm">
                         <div class="card-body p-4 text-center">
@@ -349,7 +229,6 @@
                 </div>
             </div>
             <div class="row g-4">
-                <!-- Customer Role -->
                 <div class="col-md-4">
                     <div class="card role-card shadow border-0 bg-white h-100">
                         <div class="card-header bg-primary text-white text-center py-4">
@@ -358,17 +237,22 @@
                         </div>
                         <div class="card-body p-4">
                             <ul class="list-unstyled">
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تصفح مغاسل السيارات المتاحة</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> حجز خدمات أونلاين بسهولة</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تتبع حالة الطلب في الوقت الحقيقي</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تقييم الخدمات والمراجعات</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> عرض سجل الحجوزات السابقة</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تصفح مغاسل
+                                    السيارات المتاحة</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> حجز خدمات
+                                    أونلاين بسهولة</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تتبع حالة
+                                    الطلب في الوقت الحقيقي</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تقييم الخدمات
+                                    والمراجعات</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> عرض سجل
+                                    الحجوزات السابقة</li>
                             </ul>
-                            <a href="{{ route('register', ['role' => 'customer']) }}" class="btn btn-outline-primary w-100 mt-3">سجل كعميل</a>
+                            <a href="{{ route('register', ['role' => 'customer']) }}"
+                                class="btn btn-outline-primary w-100 mt-3">سجل كعميل</a>
                         </div>
                     </div>
                 </div>
-                <!-- Owner Role -->
                 <div class="col-md-4">
                     <div class="card role-card shadow border-0 bg-white h-100">
                         <div class="card-header bg-warning text-dark text-center py-4">
@@ -377,17 +261,22 @@
                         </div>
                         <div class="card-body p-4">
                             <ul class="list-unstyled">
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة مغاسل متعددة وفروع</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> لوحة تحكم شاملة مع إحصائيات</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة الحجوزات والمواعيد</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة الخدمات والأسعار</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تقارير مالية وأداء مفصلة</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة مغاسل
+                                    متعددة وفروع</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> لوحة تحكم
+                                    شاملة مع إحصائيات</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة الحجوزات
+                                    والمواعيد</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة الخدمات
+                                    والأسعار</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تقارير مالية
+                                    وأداء مفصلة</li>
                             </ul>
-                            <a href="{{ route('register', ['role' => 'owner']) }}" class="btn btn-warning w-100 mt-3">سجل كصاحب مغسلة</a>
+                            <a href="{{ route('register', ['role' => 'owner']) }}"
+                                class="btn btn-warning w-100 mt-3">سجل كصاحب مغسلة</a>
                         </div>
                     </div>
                 </div>
-                <!-- Admin Role -->
                 <div class="col-md-4">
                     <div class="card role-card shadow border-0 bg-white h-100">
                         <div class="card-header bg-dark text-white text-center py-4">
@@ -396,11 +285,16 @@
                         </div>
                         <div class="card-body p-4">
                             <ul class="list-unstyled">
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة جميع المستخدمين</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> الموافقة على طلبات التسجيل</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> مراقبة أداء النظام بالكامل</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إعدادات النظام العامة</li>
-                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تقارير شاملة عن المنصة</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إدارة جميع
+                                    المستخدمين</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> الموافقة على
+                                    طلبات التسجيل</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> مراقبة أداء
+                                    النظام بالكامل</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> إعدادات النظام
+                                    العامة</li>
+                                <li class="mb-3"><i class="bi bi-check-circle text-success me-2"></i> تقارير شاملة
+                                    عن المنصة</li>
                             </ul>
                             <a href="{{ route('login') }}" class="btn btn-dark w-100 mt-3">دخول المدير</a>
                         </div>
@@ -435,7 +329,8 @@
                     <h4 class="text-warning mb-4">
                         <i class="bi bi-droplet-half"></i> CarWash Pro
                     </h4>
-                    <p>منصة رائدة في إدارة وتنظيم خدمات غسيل السيارات، نهدف إلى ربط العملاء بأفضل مغاسل السيارات مع توفير أدوات متكاملة لإدارة الأعمال.</p>
+                    <p>منصة رائدة في إدارة وتنظيم خدمات غسيل السيارات، نهدف إلى ربط العملاء بأفضل مغاسل السيارات مع
+                        توفير أدوات متكاملة لإدارة الأعمال.</p>
                     <div class="d-flex gap-3 mt-4">
                         <a href="#" class="text-white"><i class="bi bi-facebook fs-5"></i></a>
                         <a href="#" class="text-white"><i class="bi bi-twitter fs-5"></i></a>
@@ -446,8 +341,10 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="text-warning mb-4">روابط سريعة</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#home" class="text-white text-decoration-none">الرئيسية</a></li>
-                        <li class="mb-2"><a href="#features" class="text-white text-decoration-none">المميزات</a></li>
+                        <li class="mb-2"><a href="#home" class="text-white text-decoration-none">الرئيسية</a>
+                        </li>
+                        <li class="mb-2"><a href="#features" class="text-white text-decoration-none">المميزات</a>
+                        </li>
                         <li class="mb-2"><a href="#roles" class="text-white text-decoration-none">الأدوار</a></li>
                         <li class="mb-2"><a href="#" class="text-white text-decoration-none">الأسعار</a></li>
                     </ul>
@@ -491,30 +388,6 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Simple animation on scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fade-up');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe elements you want to animate
-            document.querySelectorAll('.feature-card, .role-card').forEach(card => {
-                observer.observe(card);
-            });
-        });
-    </script>
 </body>
 </html>

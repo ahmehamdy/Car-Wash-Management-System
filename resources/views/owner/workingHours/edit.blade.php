@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        <!-- رأس الصفحة -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h1 class="h4 mb-2 text-gray-800">
@@ -65,14 +64,12 @@
                             @csrf
                             @method('PUT')
 
-                            <!-- رسالة توجيهية -->
                             <div class="alert alert-info mb-4">
                                 <i class="fas fa-lightbulb fa-fw"></i>
                                 <strong>ملاحظة:</strong>
                                 اترك الحقول فارغة إذا كنت تريد جعل هذا اليوم إجازة.
                             </div>
 
-                            <!-- وقت الفتح -->
                             <div class="form-group">
                                 <label for="open_time" class="form-label font-weight-bold">
                                     <i class="fas fa-door-open fa-fw text-success"></i>
@@ -85,8 +82,7 @@
                                         </span>
                                     </div>
                                     <input type="time" class="form-control @error('open_time') is-invalid @enderror"
-                                        id="open_time" name="open_time"
-                                        value="{{ old('open_time') }}">
+                                        id="open_time" name="open_time" value="{{ old('open_time') }}">
                                 </div>
                                 @error('open_time')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -96,7 +92,6 @@
                                 </small>
                             </div>
 
-                            <!-- وقت الإغلاق -->
                             <div class="form-group">
                                 <label for="close_time" class="form-label font-weight-bold">
                                     <i class="fas fa-door-closed fa-fw text-danger"></i>
@@ -109,8 +104,7 @@
                                         </span>
                                     </div>
                                     <input type="time" class="form-control @error('close_time') is-invalid @enderror"
-                                        id="close_time" name="close_time"
-                                        value="{{ old('close_time') }}">
+                                        id="close_time" name="close_time" value="{{ old('close_time') }}">
                                 </div>
                                 @error('close_time')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -120,7 +114,6 @@
                                 </small>
                             </div>
 
-                            <!-- عرض حالة اليوم -->
                             <div class="p-3 border rounded bg-light mb-4">
                                 <div class="text-center">
                                     @if ($workingHour->open_time && $workingHour->close_time)
@@ -163,7 +156,6 @@
                                 </div>
                             </div>
 
-                            <!-- أزرار -->
                             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
                                 <a href="{{ route('car-wash-working-hours.index', $carWash) }}"
                                     class="btn btn-outline-secondary">
@@ -182,7 +174,6 @@
                     </div>
                 </div>
 
-                <!-- معلومات اليوم -->
                 <div class="card shadow mt-4">
                     <div class="card-body">
                         <h6 class="font-weight-bold text-primary mb-3">
@@ -236,7 +227,6 @@
                 const setDayOffBtn = document.getElementById('setDayOffBtn');
                 const form = document.getElementById('editForm');
 
-                // زر تعيين إجازة
                 setDayOffBtn.addEventListener('click', function() {
                     if (confirm('هل تريد جعل هذا اليوم إجازة؟ سيتم مسح جميع مواعيد العمل.')) {
                         openTimeInput.value = '';
@@ -245,19 +235,16 @@
                     }
                 });
 
-                // التحقق من النموذج قبل الإرسال
                 form.addEventListener('submit', function(e) {
                     const openTime = openTimeInput.value;
                     const closeTime = closeTimeInput.value;
 
-                    // إذا تم ملء أحد الحقول فقط
                     if ((openTime && !closeTime) || (!openTime && closeTime)) {
                         e.preventDefault();
                         alert('يرجى ملء كلتا الحقلين أو تركها فارغة لجعل اليوم إجازة');
                         return;
                     }
 
-                    // إذا تم ملء الحقلين، تحقق من صحة الوقت
                     if (openTime && closeTime) {
                         if (openTime >= closeTime) {
                             e.preventDefault();
@@ -267,8 +254,6 @@
                         }
                     }
 
-                    // إذا لم يتم ملء أي حقل (يوم إجازة)، السماح بالإرسال مباشرة
-                    // لا حاجة لتحقق إضافي
                 });
             });
         </script>

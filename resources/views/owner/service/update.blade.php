@@ -33,7 +33,6 @@
             @method('PUT')
 
             <div class="row">
-                <!-- المعلومات الأساسية -->
                 <div class="col-lg-8">
                     <div class="card mb-4">
                         <div class="card-header bg-light">
@@ -101,21 +100,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- <div class="col-md-6 mb-3">
-                                    <label class="form-label">التصنيف</label>
-                                    <select name="category" class="form-select @error('category') is-invalid @enderror">
-                                        <option value="">اختر تصنيفاً</option>
-                                        <option value="washing" {{ old('category', $service->category) == 'washing' ? 'selected' : '' }}>غسيل</option>
-                                        <option value="polishing" {{ old('category', $service->category) == 'polishing' ? 'selected' : '' }}>تلميع</option>
-                                        <option value="cleaning" {{ old('category', $service->category) == 'cleaning' ? 'selected' : '' }}>تنظيف داخلي</option>
-                                        <option value="engine" {{ old('category', $service->category) == 'engine' ? 'selected' : '' }}>تنظيف الموتور</option>
-                                        <option value="other" {{ old('category', $service->category) == 'other' ? 'selected' : '' }}>خدمات أخرى</option>
-                                    </select>
-                                    @error('category')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div> --}}
-
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">الحالة</label>
                                     <select name="status" class="form-select @error('status') is-invalid @enderror">
@@ -131,7 +115,6 @@
                     </div>
                 </div>
 
-                <!-- معلومات إضافية -->
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-header bg-light">
@@ -156,7 +139,6 @@
                                 </div>
                             </div>
 
-                            <!-- ملاحظات سريعة -->
                             <div class="mb-3">
                                 <h6 class="mb-3">ملاحظات</h6>
                                 <div class="form-check mb-2">
@@ -175,7 +157,6 @@
                         </div>
                     </div>
 
-                    <!-- زر الحفظ -->
                     <div class="card">
                         <div class="card-body">
                             <button type="submit" class="btn btn-primary w-100 py-3" id="submitBtn">
@@ -194,7 +175,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // نفس script صفحة create
     const priceInput = document.getElementById('price');
 
     priceInput.addEventListener('input', function() {

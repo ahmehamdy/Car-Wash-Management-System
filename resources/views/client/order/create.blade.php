@@ -1,91 +1,198 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
+
+@section('title', 'طلب جديد')
+@section('page-title', 'إنشاء طلب جديد - ' . ($carWash->name ?? ''))
 
 @section('content')
-    <div class="max-w-4xl mx-auto mt-10">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">معلومات الطلب - {{ $carWash->name ?? '' }}</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('client.order.store', $carWash->id) }}" method="POST">
+                        @csrf
 
-        <h1 class="text-3xl font-bold mb-6 text-center">
-            Place Order – {{ $carWash->name }}
-        </h1>
+                        <!-- ID المغسلة مخفي -->
+                        <input type="hidden" name="car_wash_id" value="{{ $carWash->id ?? '' }}">
 
-        <form id="orderForm" class="bg-white shadow rounded p-6 space-y-6">
-            @csrf
+                        <!-- معلومات المغسلة (للقراءة فقط) -->
+                        <div class="mb-4 p-3 bg-light rounded">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="text-muted small">المغسلة</label>
+                                    <p class="fw-bold mb-0">{{ $carWash->name ?? '' }}</p>
+                                </div>
+                                @if (isset($carWash->address))
+                                    <div class="col-md-6">
+                                        <label class="text-muted small">العنوان</label>
+                                        <p class="mb-0">{{ $carWash->address }}</p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
 
-            {{-- Pickup Time --}}
-            <div>
-                <label class="block font-semibold mb-1">Pickup Time</label>
-                <input type="datetime-local" id="pickup_time_input" class="w-full border rounded px-3 py-2" required>
+                        <!-- اختيار الخدمات -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">اختر الخدمات</label>
+
+                            @forelse($carWash->services as $service)
+                                <div class="form-check mb-2 p-3 border rounded">
+                                    <input class="form-check-input service-checkbox" type="checkbox" name="services[]"
+                                        value="{{ $service->id }}" id="service{{ $service->id }}"
+                                        data-price="{{ $service->price }}" data-name="{{ $service->name }}"
+                                        onchange="updateTotal()">
+                                    <label class="form-check-label w-100" for="service{{ $service->id }}">
+                                        <div class="d-flex justify-content-between">
+                                            <span>{{ $service->name }}</span>
+                                            <span class="text-primary">{{ number_format($service->price) }} ر.س</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            @empty
+                                <div class="alert alert-warning">
+                                    لا توجد خدمات متاحة في هذه المغسلة
+                                </div>
+                            @endforelse
+                        </div>
+
+                        <!-- موعد التنفيذ -->
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">موعد التنفيذ <span class="text-danger">*</span></label>
+                                <input type="datetime-local" name="pickup_time"
+                                    class="form-control @error('pickup_time') is-invalid @enderror"
+                                    value="{{ old('pickup_time') }}" min="{{ now()->format('Y-m-d\TH:i') }}" required>
+                                <small class="text-muted">اختر التاريخ والوقت المناسبين</small>
+                                {{-- @error('pickup_time')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror --}}
+                            </div>
+                        </div>
+
+                        <!-- ملاحظات -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">ملاحظات إضافية</label>
+                            <textarea name="notes" class="form-control @error('notes') is-invalid @enderror" rows="3"
+                                placeholder="أي ملاحظات تريد إضافتها...">{{ old('notes') }}</textarea>
+                            @error('notes')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- أزرار الإجراء -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                                <i class="bi bi-check-circle"></i> تأكيد الطلب
+                            </button>
+                            <a href="{{ route('carwashes.index') }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-right"></i> رجوع
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- ملخص الطلب -->
+            <div class="card mb-4 sticky-top" style="top: 20px;">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">ملخص الطلب</h5>
+                </div>
+                <div class="card-body">
+                    <!-- معلومات المغسلة -->
+                    <div class="mb-3 pb-3 border-bottom">
+                        <small class="text-muted d-block">المغسلة</small>
+                        <h6 class="mb-0">{{ $carWash->name ?? '' }}</h6>
+                    </div>
+
+                    <!-- الخدمات المختارة -->
+                    <div id="selectedServices" class="mb-3">
+                        <p class="text-muted mb-0">لم يتم اختيار أي خدمات</p>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>المجموع:</span>
+                        <span class="fw-bold" id="subtotal">0 ر.س</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>الضريبة (15%):</span>
+                        <span class="fw-bold" id="tax">0 ر.س</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="h5">الإجمالي:</span>
+                        <span class="h5 text-primary" id="total">0 ر.س</span>
+                    </div>
+
+                    <!-- رسالة تأكيد اختيار خدمة -->
+                    <div id="serviceAlert" class="alert alert-warning small d-none">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        يجب اختيار خدمة واحدة على الأقل
+                    </div>
+                </div>
             </div>
 
-            {{-- Services --}}
-            <div>
-                <h3 class="font-semibold mb-2">Select Services</h3>
-                @foreach ($carWash->services as $service)
-                    <label class="flex items-center gap-3 mb-2">
-                        <input type="checkbox" class="service-checkbox" value="{{ $service->id }}">
-                        {{ $service->name }} ({{ $service->price }} EGP)
-                    </label>
-                @endforeach
+            <!-- معلومات المساعدة -->
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h6><i class="bi bi-question-circle"></i> تحتاج مساعدة؟</h6>
+                    <p class="small mb-2">تواصل مع فريق الدعم الفني</p>
+                    <a href="#" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="bi bi-headset"></i> الدعم الفني
+                    </a>
+                </div>
             </div>
-
-            <button type="button" onclick="submitOrder()"
-                class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                Place Order
-            </button>
-        </form>
-
+        </div>
     </div>
+@endsection
 
+@push('scripts')
     <script>
-        let isSubmitting = false;
+        function updateTotal() {
+            let subtotal = 0;
+            let selectedHtml = '';
+            let selectedCount = 0;
 
-        function submitOrder() {
-            if (isSubmitting) return; // منع الضغط المتكرر
-            isSubmitting = true;
+            document.querySelectorAll('input[name="services[]"]:checked').forEach(checkbox => {
+                const price = parseFloat(checkbox.dataset.price);
+                const serviceName = checkbox.dataset.name;
 
-            const pickupRaw = document.getElementById('pickup_time_input').value;
-            if (!pickupRaw) {
-                alert('Choose pickup time');
-                isSubmitting = false;
-                return;
-            }
+                subtotal += price;
+                selectedCount++;
 
-            const formData = new FormData();
-            formData.append('_token', "{{ csrf_token() }}");
-            formData.append('pickup_time', pickupRaw.replace('T', ' '));
-
-            let index = 0;
-            document.querySelectorAll('.service-checkbox:checked').forEach(cb => {
-                formData.append(`services[${index}][id]`, cb.value);
-                index++;
+                selectedHtml += `
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>${serviceName}</span>
+                    <span class="text-primary">${price} ر.س</span>
+                </div>
+            `;
             });
 
-            if (index === 0) {
-                alert('Select at least one service');
-                isSubmitting = false;
-                return;
-            }
+            const tax = subtotal * 0.15;
+            const total = subtotal + tax;
 
-            fetch("{{ route('client.order.store', $carWash->id) }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        // بعد نجاح الأوردر → نروح لصفحة أوردراته
-                        window.location.href = data.redirect_url;
-                    } else {
-                        alert(data.message || 'Something went wrong');
-                        isSubmitting = false;
-                    }
-                })
-                .catch(() => {
-                    alert('Something went wrong');
-                    isSubmitting = false;
-                });
+            document.getElementById('selectedServices').innerHTML = selectedHtml ||
+                '<p class="text-muted mb-0">لم يتم اختيار أي خدمات</p>';
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' ر.س';
+            document.getElementById('tax').textContent = tax.toFixed(2) + ' ر.س';
+            document.getElementById('total').textContent = total.toFixed(2) + ' ر.س';
+
+            const submitBtn = document.getElementById('submitBtn');
+            const serviceAlert = document.getElementById('serviceAlert');
+
+            if (selectedCount > 0) {
+                submitBtn.disabled = false;
+                serviceAlert.classList.add('d-none');
+            } else {
+                submitBtn.disabled = true;
+                serviceAlert.classList.remove('d-none');
+            }
         }
     </script>
-@endsection
+@endpush

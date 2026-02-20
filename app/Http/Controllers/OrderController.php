@@ -23,13 +23,29 @@ class OrderController extends Controller
     ) {}
     use AuthorizesRequests;
 
-    public function index($status)
+    public function index()
     {
-        $orders = auth()->user()->orders()->where('status', $status)->get();
+        $userId = auth()->id();
 
-        return view('client.order.index', compact('orders'));
+        $totalOrders = Order::where('user_id', $userId)->count();
+        $pendingOrders = Order::where('user_id', $userId)->where('status', 'pending')->count();
+        $inProgressOrders = Order::where('user_id', $userId)->whereIn('status', ['confirmed', 'in-progress'])->count();
+        $completedOrders = Order::where('user_id', $userId)->where('status', 'completed')->count();
+
+        $recentOrders = Order::with('carwash', 'services')
+            ->where('user_id', $userId)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('client.order.index', compact(
+            'totalOrders',
+            'pendingOrders',
+            'inProgressOrders',
+            'completedOrders',
+            'recentOrders',
+        ));
     }
-
 
     public function create(CarWash $carWash)
     {
@@ -44,19 +60,16 @@ class OrderController extends Controller
 
         $order = $this->createAction->execute(auth()->user(), $carWash, $data);
 
-        return response()->json([
-            'success' => true,
-            'redirect_url' => route('client.listMyOrders'),
-        ]);
+        return redirect()->route('client.order.showMyOrder', $order->id)
+            ->with('success', 'تم إنشاء الطلب بنجاح');
     }
 
     public function showMyOrder(Order $order)
     {
-        $this->authorize('viewMyOrder', $order);
-        return response()->json([
-            'message' => 'your order',
-            'order' => $order
-        ], 200);
+        $order = Order::with('carwash', 'services')
+            ->where('user_id', auth()->id())
+            ->findOrFail($order);
+        return view('client.order.show', compact('order'));
     }
 
     public function edit(Order $order)
