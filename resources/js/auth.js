@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function nextStep(currentStep, nextStep) {
+ window.nextStep = function(currentStep, nextStep) {
     document.getElementById('step' + currentStep).classList.remove('active');
     document.getElementById('step' + currentStep).classList.add('completed');
     document.getElementById('step' + nextStep).classList.add('active');
@@ -51,7 +51,7 @@ function nextStep(currentStep, nextStep) {
     document.getElementById('formStep' + nextStep).classList.remove('d-none');
 }
 
-function prevStep(currentStep, prevStep) {
+ window.prevStep = function(currentStep, prevStep) {
     document.getElementById('step' + currentStep).classList.remove('active');
     document.getElementById('step' + prevStep).classList.add('active');
     document.getElementById('step' + prevStep).classList.remove('completed');

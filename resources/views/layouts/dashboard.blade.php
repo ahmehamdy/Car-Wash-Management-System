@@ -46,13 +46,13 @@
                     <i class="bi bi-person"></i> الملف الشخصي
                 </a>
 
-                @if (auth()->user()->role == 'customer')
+                @if (auth()->user()->role == 'client')
                     <a class="nav-link {{ Request::is('carwashes*') ? 'active' : '' }}"
                         href="{{ route('carwashes.index') }}">
                         <i class="bi bi-search"></i> تصفح المغاسل
                     </a>
 
-                    <a class="nav-link {{ Request::is('orders*') ? 'active' : '' }}" href="{{ route('orders.index') }}">
+                    <a class="nav-link {{ Request::is('orders*') ? 'active' : '' }}" href="{{ route('client.orders.index') }}">
                         <i class="bi bi-list-check"></i> طلباتي
                     </a>
                 @endif
@@ -139,27 +139,7 @@
                                 </span>
                             @endif --}}
                         </button>
-                        <div class="dropdown-menu dropdown-menu-end p-0" style="min-width: 300px;">
-                            <div class="p-3 border-bottom">
-                                <h6 class="mb-0">الإشعارات</h6>
-                            </div>
-                            <div class="list-group" style="max-height: 300px; overflow-y: auto;">
-                                {{-- @foreach (auth()->user()->notifications()->take(5)->get() as $notification)
-                                    <a href="#"
-                                        class="list-group-item list-group-item-action border-0 {{ $notification->unread() ? 'bg-light' : '' }}">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <small
-                                                class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
-                                        </div>
-                                        <p class="mb-1">{{ $notification->data['message'] ?? 'اشعار جديد' }}</p>
-                                    </a>
-                                @endforeach --}}
-                            </div>
-                            <div class="p-2 border-top text-center">
-                                <a href="#" class="text-decoration-none">عرض
-                                    الكل</a>
-                            </div>
-                        </div>
+
                     </div>
 
                     <!-- User Dropdown -->
@@ -214,11 +194,11 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @stack('scripts')
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    @stack('scripts')
 </body>
 
 </html>

@@ -95,7 +95,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save"></i> حفظ التعديلات
                             </button>
-                            <a href="{{ route('orders.show', 1) }}" class="btn btn-secondary">
+                            <a href="{{ route('client.order.showMyOrder', 1) }}" class="btn btn-secondary">
                                 <i class="bi bi-x-circle"></i> إلغاء
                             </a>
                         </div>

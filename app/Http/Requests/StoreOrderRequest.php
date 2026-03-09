@@ -25,7 +25,7 @@ class StoreOrderRequest extends FormRequest
             'services' => 'required|array|min:1',
             'services.*.id' => 'required|exists:services,id',
             'services.*.qty' => 'sometimes|integer|min:1',
-            'pickup_time' => 'required|date_format:Y-m-d H:i'
+            'pickup_time' => 'required|date|after_or_equal:now'
         ];
     }
 }

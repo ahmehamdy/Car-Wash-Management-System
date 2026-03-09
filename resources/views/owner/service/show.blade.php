@@ -34,7 +34,7 @@
                                         <td width="120">السعر:</td>
                                         <td>
                                             <span class="fw-bold text-success fs-5">
-                                                {{ number_format($service->price) }} ر.س
+                                                {{ number_format($service->price) }} ج.م
                                             </span>
                                         </td>
                                     </tr>
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="fs-2 fw-bold text-success">
-                                            {{ number_format($totalRevenue ?? 0) }} ر.س
+                                            {{ number_format($totalRevenue ?? 0) }} ج.م
                                         </div>
                                         <small class="text-muted">إجمالي الإيرادات</small>
                                     </div>
@@ -153,7 +153,7 @@
                                                     {{ $statusText[$order->status] ?? $order->status }}
                                                 </span>
                                             </td>
-                                            <td>{{ number_format($order->total_price) }} ر.س</td>
+                                            <td>{{ number_format($order->total_price) }} ج.م</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

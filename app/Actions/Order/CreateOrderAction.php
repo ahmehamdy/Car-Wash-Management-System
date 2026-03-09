@@ -20,9 +20,9 @@ class CreateOrderAction
 
     public function execute(User $user, CarWash $carWash, array $data)
     {
-        $pickup = Carbon::createFromFormat('Y-m-d H:i', $data['pickup_time']);
-
-        $this->validation->validate($carWash, $user, $pickup);
+        $pickup = Carbon::parse($data['pickup_time']);
+        // dd('before validation');
+        // $this->validation->validate($carWash, $user, $pickup);
 
         $order = $this->orderService->createOrder($user, $carWash, $pickup);
         $order = $this->orderService->attachService($order, $data['services']);

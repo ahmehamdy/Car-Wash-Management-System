@@ -158,7 +158,7 @@
                         <div class="card-body">
                             <div class="text-center py-3">
                                 <div class="display-4 fw-bold text-success">
-                                    {{ number_format($totalRevenue ?? 0) }} ر.س
+                                    {{ number_format($totalRevenue ?? 0) }} ج.م
                                 </div>
                                 <small class="text-muted">إجمالي الإيرادات</small>
                             </div>
@@ -202,7 +202,7 @@
                                     @foreach ($carWash->services as $service)
                                         <tr>
                                             <td>{{ $service->name }}</td>
-                                            <td>{{ number_format($service->price) }} ر.س</td>
+                                            <td>{{ number_format($service->price) }} ج.م</td>
                                             <td>{{ $service->duration }} دقيقة</td>
                                             <td>{{ $service->category }}</td>
                                         </tr>
@@ -283,7 +283,7 @@
                                                 {{ $statusText[$order->status] ?? $order->status }}
                                             </span>
                                             <div class="text-primary fw-bold mt-1">
-                                                {{ number_format($order->total_price) }} ر.س
+                                                {{ number_format($order->total_price) }} ج.م
                                             </div>
                                         </div>
                                     </div>

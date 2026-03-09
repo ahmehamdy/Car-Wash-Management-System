@@ -48,9 +48,9 @@ Route::middleware(['auth', 'role:owner'])->group(function () {
         Route::put('/{carWash}', [CarWashController::class, 'update'])->name('carWash.update');
         Route::delete('/{carWash}', [CarWashController::class, 'destroy'])->name('carWash.destroy');
 
-        Route::get('/orders/{carWash}', [OrderController::class, 'selectStatus'])->name('carWash.orders.selectStatus'); // اختيار حالة الطلب
-        Route::get('/orders/{carWash}/status/{status}', [OrderController::class, 'showCarwashOrder'])->name('carWash.orders.index'); // عرض الطلبات حسب الحالة
-        Route::patch('/orders/{order}', [OrderController::class, 'updateStatus'])->name('carWash.orders.updateStatus'); // تحديث حالة الطلب
+        Route::get('/orders/{carWash}', [OrderController::class, 'selectStatus'])->name('carWash.orders.selectStatus');
+        Route::get('/orders/{carWash}/status/{status}', [OrderController::class, 'showCarwashOrder'])->name('carWash.orders.index');
+        Route::patch('/orders/{order}', [OrderController::class, 'updateStatus'])->name('carWash.orders.updateStatus'); 
     });
 
 

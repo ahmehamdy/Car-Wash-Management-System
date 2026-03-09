@@ -77,7 +77,7 @@
                                     </td>
                                     <td>
                                         <span class="fw-bold text-success">
-                                            {{ number_format($service->price) }} ر.س
+                                            {{ number_format($service->price) }} ج.م
                                         </span>
                                     </td>
                                     <td>
@@ -160,7 +160,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6 class="text-muted mb-1">متوسط السعر</h6>
-                                        <h4 class="mb-0">{{ number_format($services->avg('price') ?? 0) }} ر.س</h4>
+                                        <h4 class="mb-0">{{ number_format($services->avg('price') ?? 0) }} ج.م</h4>
                                     </div>
                                     <i class="bi bi-currency-dollar text-success fs-3"></i>
                                 </div>
@@ -174,7 +174,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6 class="text-muted mb-1">أعلى سعر</h6>
-                                        <h4 class="mb-0">{{ number_format($services->max('price') ?? 0) }} ر.س</h4>
+                                        <h4 class="mb-0">{{ number_format($services->max('price') ?? 0) }} ج.م</h4>
                                     </div>
                                     <i class="bi bi-arrow-up text-warning fs-3"></i>
                                 </div>
@@ -188,7 +188,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6 class="text-muted mb-1">أقل سعر</h6>
-                                        <h4 class="mb-0">{{ number_format($services->min('price') ?? 0) }} ر.س</h4>
+                                        <h4 class="mb-0">{{ number_format($services->min('price') ?? 0) }} ج.م</h4>
                                     </div>
                                     <i class="bi bi-arrow-down text-info fs-3"></i>
                                 </div>

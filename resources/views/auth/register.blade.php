@@ -163,19 +163,11 @@
 
                                         <div class="col-12">
                                             <label for="city" class="form-label">المدينة</label>
-                                            <select class="form-select @error('city') is-invalid @enderror"
+                                            <input class="form-control @error('city') is-invalid @enderror"
                                                     id="city"
                                                     name="city"
                                                     required>
-                                                <option value="" selected disabled>اختر مدينتك</option>
-                                                <option value="riyadh">الرياض</option>
-                                                <option value="jeddah">جدة</option>
-                                                <option value="dammam">الدمام</option>
-                                                <option value="makkah">مكة المكرمة</option>
-                                                <option value="medina">المدينة المنورة</option>
-                                                <option value="khobar">الخبر</option>
-                                                <option value="other">مدينة أخرى</option>
-                                            </select>
+                                                </input>
                                             @error('city')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

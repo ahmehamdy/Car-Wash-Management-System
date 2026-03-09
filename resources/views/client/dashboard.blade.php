@@ -14,7 +14,7 @@
                             <h4 class="mb-2">مرحباً {{ auth()->user()->name }}! 👋</h4>
                             <p class="mb-0">لديك {{ $activeOrdersCount ?? 0 }} طلبات نشطة</p>
                         </div>
-                        <a href="{{ route('carwashes.index') }}" class="btn btn-light">
+                        <a href="{{ route('carWash.availableCarWashes') }}" class="btn btn-light">
                             <i class="bi bi-plus-circle"></i> حجز جديد
                         </a>
                     </div>

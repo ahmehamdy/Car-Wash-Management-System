@@ -133,7 +133,7 @@
                                                     class="badge bg-{{ $statusColors[$order->status] ?? 'secondary' }} mb-2">
                                                     {{ $statusTexts[$order->status] ?? $order->status }}
                                                 </span>
-                                                <h6 class="mb-0">{{ number_format($order->total_price) }} ر.س</h6>
+                                                <h6 class="mb-0">{{ number_format($order->total_price) }} ج.م</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -187,7 +187,7 @@
                             </p>
                             <p class="card-text">{{ $carwash->description ?? 'خدمة غسيل كامل + تعقيم داخلي' }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">{{ $carwash->starting_price ?? '120' }} ر.س</h6>
+                                <h6 class="mb-0">{{ $carwash->starting_price ?? '120' }} ج.م</h6>
                                 <a href="{{ route('client.orders.create', $carwash->id) }}"
                                     class="btn btn-sm btn-primary">احجز الآن</a>
                             </div>

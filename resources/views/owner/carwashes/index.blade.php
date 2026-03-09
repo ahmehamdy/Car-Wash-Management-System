@@ -95,7 +95,7 @@
                                         </div>
                                         <div class="text-center">
                                             <div class="fw-bold text-success">
-                                                {{ number_format($carWash->total_revenue ?? 0) }} ر.س
+                                                {{ number_format($carWash->total_revenue ?? 0) }} ج.م
                                             </div>
                                             <small class="text-muted">الإيرادات</small>
                                         </div>

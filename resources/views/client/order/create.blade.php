@@ -39,14 +39,15 @@
 
                             @forelse($carWash->services as $service)
                                 <div class="form-check mb-2 p-3 border rounded">
-                                    <input class="form-check-input service-checkbox" type="checkbox" name="services[]"
-                                        value="{{ $service->id }}" id="service{{ $service->id }}"
-                                        data-price="{{ $service->price }}" data-name="{{ $service->name }}"
-                                        onchange="updateTotal()">
+                                    <input class="form-check-input service-checkbox" type="checkbox"
+                                        name="services[{{ $service->id }}][id]" value="{{ $service->id }}"
+                                        id="service{{ $service->id }}" data-price="{{ $service->price }}"
+                                        data-name="{{ $service->name }}" onchange="updateTotal()">
+                                    <input type="hidden" name="services[{{ $service->id }}][qty]" value="1" min="1" onchange="updateTotal()">
                                     <label class="form-check-label w-100" for="service{{ $service->id }}">
                                         <div class="d-flex justify-content-between">
                                             <span>{{ $service->name }}</span>
-                                            <span class="text-primary">{{ number_format($service->price) }} ر.س</span>
+                                            <span class="text-primary">{{ number_format($service->price) }} ج.م</span>
                                         </div>
                                     </label>
                                 </div>
@@ -65,9 +66,9 @@
                                     class="form-control @error('pickup_time') is-invalid @enderror"
                                     value="{{ old('pickup_time') }}" min="{{ now()->format('Y-m-d\TH:i') }}" required>
                                 <small class="text-muted">اختر التاريخ والوقت المناسبين</small>
-                                {{-- @error('pickup_time')
+                                @error('pickup_time')
                                     <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror --}}
+                                @enderror
                             </div>
                         </div>
 
@@ -83,7 +84,7 @@
 
                         <!-- أزرار الإجراء -->
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                            <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle"></i> تأكيد الطلب
                             </button>
                             <a href="{{ route('carwashes.index') }}" class="btn btn-secondary">
@@ -117,16 +118,16 @@
 
                     <div class="d-flex justify-content-between mb-2">
                         <span>المجموع:</span>
-                        <span class="fw-bold" id="subtotal">0 ر.س</span>
+                        <span class="fw-bold" id="subtotal">0 ج.م</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span>الضريبة (15%):</span>
-                        <span class="fw-bold" id="tax">0 ر.س</span>
+                        <span class="fw-bold" id="tax">0 ج.م</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between mb-3">
                         <span class="h5">الإجمالي:</span>
-                        <span class="h5 text-primary" id="total">0 ر.س</span>
+                        <span class="h5 text-primary" id="total">0 ج.م</span>
                     </div>
 
                     <!-- رسالة تأكيد اختيار خدمة -->
@@ -158,19 +159,23 @@
             let selectedHtml = '';
             let selectedCount = 0;
 
-            document.querySelectorAll('input[name="services[]"]:checked').forEach(checkbox => {
+            document.querySelectorAll('input[name^="services"][type="checkbox"]:checked').forEach(checkbox => {
+                const serviceRow = checkbox.closest('.form-check');
                 const price = parseFloat(checkbox.dataset.price);
                 const serviceName = checkbox.dataset.name;
 
-                subtotal += price;
+                let qtyInput = serviceRow.querySelector('input[type="hidden"][name$="[qty]"]');
+                let qty = qtyInput ? parseInt(qtyInput.value) : 1;
+
+                subtotal += price * qty;
                 selectedCount++;
 
                 selectedHtml += `
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span>${serviceName}</span>
-                    <span class="text-primary">${price} ر.س</span>
-                </div>
-            `;
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span>${serviceName} x${qty}</span>
+                <span class="text-primary">${(price * qty).toFixed(2)} ج.م</span>
+            </div>
+        `;
             });
 
             const tax = subtotal * 0.15;
@@ -179,9 +184,9 @@
             document.getElementById('selectedServices').innerHTML = selectedHtml ||
                 '<p class="text-muted mb-0">لم يتم اختيار أي خدمات</p>';
 
-            document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' ر.س';
-            document.getElementById('tax').textContent = tax.toFixed(2) + ' ر.س';
-            document.getElementById('total').textContent = total.toFixed(2) + ' ر.س';
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' ج.م';
+            document.getElementById('tax').textContent = tax.toFixed(2) + ' ج.م';
+            document.getElementById('total').textContent = total.toFixed(2) + ' ج.م';
 
             const submitBtn = document.getElementById('submitBtn');
             const serviceAlert = document.getElementById('serviceAlert');

@@ -152,7 +152,7 @@
                                     </td>
                                     <td>
                                         <span class="fw-bold text-primary">
-                                            {{ number_format($order->total_price) }} ر.س
+                                            {{ number_format($order->total_price) }} ج.م
                                         </span>
                                     </td>
                                     <td>
@@ -259,7 +259,7 @@
                                                                     @foreach ($order->services as $service)
                                                                         <tr>
                                                                             <td>{{ $service->name }}</td>
-                                                                            <td>{{ number_format($service->price) }} ر.س
+                                                                            <td>{{ number_format($service->price) }} ج.م
                                                                             </td>
                                                                             <td>{{ $service->duration }} دقيقة</td>
                                                                         </tr>
@@ -268,7 +268,7 @@
                                                                         <td colspan="2" class="text-end fw-bold">
                                                                             الإجمالي:</td>
                                                                         <td class="fw-bold">
-                                                                            {{ number_format($order->total_price) }} ر.س
+                                                                            {{ number_format($order->total_price) }} ج.م
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

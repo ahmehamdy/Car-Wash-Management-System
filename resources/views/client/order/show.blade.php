@@ -22,15 +22,17 @@
                                 </tr>
                                 <tr>
                                     <th>تاريخ الطلب:</th>
-                                    <td>15 فبراير 2024 - 10:30 صباحاً</td>
+                                    <td>{{ \Carbon\Carbon::parse($order->pickup_time)->locale('ar')->translatedFormat('d F Y - h:i A') }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>موعد التنفيذ:</th>
-                                    <td>16 فبراير 2024 - 2:00 عصراً</td>
+                                    <td>{{ $order->pickup_time->copy()->addDay()->locale('ar')->translatedFormat('d F Y - h:i A') }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>المغسلة:</th>
-                                    <td>مغسلة النور للسيارات</td>
+                                    <td>{{ $order->carWash->name }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -47,7 +49,7 @@
                                 <tr>
                                     <th>المبلغ:</th>
                                     <td>
-                                        <h4 class="text-primary mb-0">150 ر.س</h4>
+                                        <h4 class="text-primary mb-0">{{$order->total_price}} ج.م</h4>
                                     </td>
                                 </tr>
                             </table>
@@ -72,19 +74,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>غسيل خارجي</td>
-                                    <td>غسيل كامل للهيكل الخارجي + تجفيف</td>
-                                    <td class="text-end">80 ر.س</td>
-                                </tr>
-                                <tr>
-                                    <td>تلميع داخلي</td>
-                                    <td>تنظيف وتعقيم المقاعد والأرضيات</td>
-                                    <td class="text-end">70 ر.س</td>
-                                </tr>
+                                @foreach ($order->services as $service)
+                                    <tr>
+                                        <td>{{$service->name}}</td>
+                                        <td>{{$service->description}}</td>
+                                        <td class="text-end">{{$service->price}} ج.م</td>
+                                    </tr>
+
+                                @endforeach
                                 <tr class="table-primary">
                                     <td colspan="2" class="fw-bold">الإجمالي</td>
-                                    <td class="text-end fw-bold">150 ر.س</td>
+                                    <td class="text-end fw-bold">{{$order->total_price}} ج.م</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -149,13 +149,13 @@
                         <img src="https://ui-avatars.com/api/?name=أحمد+محمد&background=random" class="rounded-circle me-3"
                             width="60" height="60">
                         <div>
-                            <h6 class="mb-1">أحمد محمد</h6>
-                            <small class="text-muted"><i class="bi bi-telephone"></i> 0501234567</small><br>
-                            <small class="text-muted"><i class="bi bi-envelope"></i> ahmed@example.com</small>
+                            <h6 class="mb-1">{{ $order->user->name }}</h6>
+                            <small class="text-muted"><i class="bi bi-telephone"></i> {{ $order->user->phone }}</small><br>
+                            <small class="text-muted"><i class="bi bi-envelope"></i> {{ $order->user->email }}</small>
                         </div>
                     </div>
                     <div class="alert alert-info mb-0">
-                        <i class="bi bi-geo-alt"></i> الرياض - حي النرجس - شارع العليا
+                        <i class="bi bi-geo-alt"></i>{{ $order->user->city }}
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{{ route('orders.edit', 1) }}" class="btn btn-warning">
+                        <a href="{{ route('client.order.edit', $order->id) }}" class="btn btn-warning">
                             <i class="bi bi-pencil"></i> تعديل الطلب
                         </a>
                         <button class="btn btn-danger" onclick="confirmCancel()">

@@ -38,7 +38,7 @@ class StoreServiceRequest extends FormRequest
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0|max:100',
             'description' => 'nullable|string',
-            'duration' => 'nullable|integer|min:1',
+            'duration' => 'required|integer|min:1',
             'status' => 'required|boolean',
         ];
     }

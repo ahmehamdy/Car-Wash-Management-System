@@ -55,6 +55,7 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request, CarWash $carWash)
     {
+        // dd($request->all());
         // $this->authorize('create');
         $data = $request->validated();
 
@@ -68,7 +69,7 @@ class OrderController extends Controller
     {
         $order = Order::with('carwash', 'services')
             ->where('user_id', auth()->id())
-            ->findOrFail($order);
+            ->findOrFail($order->id);
         return view('client.order.show', compact('order'));
     }
 

@@ -36,7 +36,7 @@
                                     @foreach ($carWash->services as $service)
                                         <div class="d-flex justify-content-between mb-2">
                                             <span>{{ $service->name }}</span>
-                                            <span class="fw-bold">{{ $service->price }} ر.س</span>
+                                            <span class="fw-bold">{{ $service->price }} ج.م</span>
                                         </div>
                                     @endforeach
                                 @endif

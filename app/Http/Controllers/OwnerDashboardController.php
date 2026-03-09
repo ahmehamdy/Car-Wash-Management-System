@@ -12,13 +12,10 @@ class OwnerDashboardController extends Controller
     {
         $owner = auth()->user();
 
-        // جلب أول مغسلة للمالك (أو null إذا لم يكن لديه)
         $carWash = $owner->carWashes()->first();
 
-        // الإحصائيات الرئيسية
         $totalCarWashes = $owner->carWashes()->count();
 
-        // الطلبات (إذا كان لديه مغسلة)
         $totalOrders = 0;
         $totalRevenue = 0;
         $recentOrders = collect();
@@ -35,14 +32,12 @@ class OwnerDashboardController extends Controller
                 ->where('status', 'completed')
                 ->sum('total_price');
 
-            // الطلبات الحديثة (آخر 5)
             $recentOrders = Order::where('car_wash_id', $carWash->id)
                 ->with(['user', 'carWash'])
                 ->latest()
                 ->take(5)
                 ->get();
 
-            // الطلبات حسب الحالة
             foreach (['pending', 'accepted', 'in-progress', 'completed'] as $status) {
                 $ordersByStatus[$status] = Order::where('car_wash_id', $carWash->id)
                     ->where('status', $status)
@@ -56,7 +51,7 @@ class OwnerDashboardController extends Controller
             'totalRevenue',
             'recentOrders',
             'ordersByStatus',
-            'carWash'  // أضفنا carWash هنا
+            'carWash'
         ));
     }
 }
